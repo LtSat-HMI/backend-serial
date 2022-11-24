@@ -11,6 +11,7 @@ class Serial:
 
                 data = MSP.readline().decode()
                 dataSplit = data.split(',')
+                print(dataSplit)
                 if (len(dataSplit) != 0):
                     telemetria[0].append(dataSplit[0])
                     telemetria[1].append(dataSplit[1])
