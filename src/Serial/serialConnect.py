@@ -1,4 +1,5 @@
 import serial
+from src.ConectDatabase.ConectReal import ConnectBancoReal
 
 class SerialConnect:
     def __init__(self):
@@ -6,29 +7,32 @@ class SerialConnect:
         
     
     def serial_conect(self, porta='/dev/ttyACM0'):
-        MSP = serial.Serial(porta, 9600, timeout=3)            
+        MSP = serial.Serial(porta, 9600)
         telemetria = list()
+        vectorTelemetria = []
+        # dataAux = []
+
+        data = MSP.readline().decode()
+        dataSplit = data.split(',')
+        print(data)          
         try:
+            connectBd = ConnectBancoReal()
             while True:
                 MSP.flushOutput()
                 MSP.flushInput()
-
-                data = MSP.readline().decode('utf-8')
-                dataSplit = data.split('/t')
-                print(data)
-                telemetria[0].append(dataSplit[0])
-                telemetria[1].append(dataSplit[1])
-                telemetria[2].append(dataSplit[2])
-                telemetria[3].append(dataSplit[3])
-                # if (telemetria[0] > 9):
-                #     telemetria[0].clear()
-                #     telemetria[1].clear()
-                #     telemetria[2].clear()
-                #     telemetria[3].clear()
-                print(telemetria)
+                print(dataSplit)
+                vectorTelemetria[0] = dataSplit[0]
+                vectorTelemetria[1] = dataSplit[1]
+                vectorTelemetria[2] = dataSplit[2]
+                vectorTelemetria[3] = dataSplit[3]
+                connectBd.SaveTelemetria(vectorTelemetria)
+                dataAux = vectorTelemetria
+                vectorTelemetria.clear()
+                # if (vectorTelemetria[0] > 9):
+                #     self.avg_telemetria(dataAux)
+                #     dataAux.clear()
         except:
-            serial.SerialException()
-            print("erro para instanciar porta serial")
+            print("erro para instanciar porta serial", serial.SerialException())
 
     # def avg_telemetria(telemetria):
     #     avg_tel = []

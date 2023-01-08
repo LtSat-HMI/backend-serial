@@ -27,7 +27,7 @@ class BancoReal:
 
 # # criando a tabela (schema)
 # self.cursor.execute("""
-# CREATE TABLE telemetria (
+# CREATE TABLE Telemetria (
 #         count INTEGER NOT NULL PRIMARY KEY,
 #         Altitude REAL,
 #         Temperatura REAL,
